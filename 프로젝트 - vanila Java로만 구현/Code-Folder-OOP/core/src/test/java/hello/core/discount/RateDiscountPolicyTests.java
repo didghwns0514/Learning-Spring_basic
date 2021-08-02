@@ -1,5 +1,6 @@
 package hello.core.discount;
 
+import hello.core.AppConfig;
 import hello.core.member.Grade;
 import hello.core.member.Member;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,7 @@ class RateDiscountPolicyTests {
     void vip_disc(){
 
         //given
+        AppConfig appConfig = new AppConfig();
         Member member = new Member(1L,"memberVIP", Grade.VIP);
 
         //when
