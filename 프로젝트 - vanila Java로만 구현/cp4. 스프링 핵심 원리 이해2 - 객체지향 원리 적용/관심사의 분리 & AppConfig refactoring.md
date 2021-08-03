@@ -36,3 +36,49 @@
 
   - 구체적인 구현 클래스에 대해서 impl 단은 정보를 모르는 상태, 역할을 구현할 구현체를 select하는 곳은 다른 곳에서 한번에!
   - Final : 반드시 할당을 해주어야 함, null point exception
+
+## 3) AppConfig refactoring
+
+- Refacotring 이유
+
+  - 역할에 따른 구현이 명확하지 않음
+  - 중복이 있음
+  - 기대하는 방식 (한번에 밑에처럼 바로 이해할 수 있는, 드러나는 코드를 작성하고 싶음)
+
+    <img src="images/2021-08-03-22-54-21.png" />
+
+- Refactoring 단축키
+  - **`cmd + option + m`** (안되면 두번 type)
+- Refactoring
+
+  - 어떤 구현체를 선택하였고, 그렇게 생성한 구현체를 다시 주입하는 과정이 모두 잘 드러나있음
+  - Code Example
+
+    ```JAVA
+       public class AppConfig {
+
+          public MemberService memberService(){
+
+              return new MemberServiceImpl(memberRepository());
+          }
+
+          private MemberRepository memberRepository() {
+              return new MemoryMemberRepository();
+          }
+
+          public OrderService orderService(){
+
+              return new OrderServiceImpl(memberRepository(), discountPolicy());
+          }
+
+          private DiscountPolicy discountPolicy() {
+              return new RateDiscountPolicy();
+          }
+
+       }
+    ```
+
+  - 이 방식의 장점
+    - new MemoryMemberRepository() 이 부분이 중복 제거  
+      이제 MemoryMemberRepository 를 다 른 구현체로 변경할 때 한 부분만 변경하면 됨(구현체 돌려주는 private 부분)
+    - AppConfig 를 보면 역할과 구현 클래스가 한눈에 들어옴, 이때 어플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악할 수 있음
