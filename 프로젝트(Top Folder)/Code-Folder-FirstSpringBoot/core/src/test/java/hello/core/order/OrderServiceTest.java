@@ -1,12 +1,12 @@
 package hello.core.order;
 
 import hello.core.AppConfig;
-import hello.core.member.Grade;
-import hello.core.member.Member;
-import hello.core.member.MemberService;
-import hello.core.member.MemberServiceImpl;
+import hello.core.discount.DiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
+import hello.core.member.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class OrderServiceTest {
@@ -35,5 +35,11 @@ public class OrderServiceTest {
 
         Assertions.assertEquals(order.getDiscountPrice(), 1000);
 
+    }
+
+    @Test
+    @DisplayName("더미 테스트")
+    void createOrderDummyTest() {
+        OrderServiceImpl orderService = new OrderServiceImpl( new MemoryMemberRepository(), new RateDiscountPolicy());
     }
 }
