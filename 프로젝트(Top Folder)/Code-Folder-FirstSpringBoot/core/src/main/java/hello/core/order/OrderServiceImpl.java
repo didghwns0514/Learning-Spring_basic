@@ -1,13 +1,9 @@
 package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
-import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class OrderServiceImpl implements OrderService{
 
     private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy;
+    private final DiscountPolicy rateDiscountPolicy;
 
 //    @Autowired
 //    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
@@ -30,7 +26,7 @@ public class OrderServiceImpl implements OrderService{
 
         // 이부분이 분리되어서, 할인은 Discount 쪽에 다 넘겨서 해결
         // 역할의 분리가 잘 되어있음
-        int discountPrice = discountPolicy.discount(member, itemPrice);
+        int discountPrice = rateDiscountPolicy.discount(member, itemPrice);
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
 
