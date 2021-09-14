@@ -1,23 +1,26 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor // final 붙은 것 생성자 생성해줌 -> Optional 주입 등에서 생성자 사용하기!
+//@RequiredArgsConstructor // final 붙은 것 생성자 생성해줌 -> Optional 주입 등에서 생성자 사용하기!
 public class OrderServiceImpl implements OrderService{
 
     private final MemberRepository memberRepository;
-    private final DiscountPolicy rateDiscountPolicy;
+//    private final DiscountPolicy rateDiscountPolicy;
+    private final DiscountPolicy discountPolicy;
 
-//    @Autowired
-//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-//        this.memberRepository = memberRepository;
-//        this.discountPolicy = discountPolicy;
-//    }
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
@@ -26,7 +29,9 @@ public class OrderServiceImpl implements OrderService{
 
         // 이부분이 분리되어서, 할인은 Discount 쪽에 다 넘겨서 해결
         // 역할의 분리가 잘 되어있음
-        int discountPrice = rateDiscountPolicy.discount(member, itemPrice);
+        // int discountPrice = rateDiscountPolicy.discount(member, itemPrice);
+        int discountPrice = discountPolicy.discount(member, itemPrice);
+
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
 

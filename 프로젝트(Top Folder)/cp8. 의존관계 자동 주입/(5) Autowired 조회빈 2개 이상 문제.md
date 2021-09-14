@@ -49,4 +49,4 @@
 
   - 장점 : 자동으로 기본값으로 돌아가게 됨
 
-- Qualifier가 더 수동에 가까움으로, 두개 모두 사용하면 Primary가 우선권이 있음
+- Qualifier가 더 수동에 가까움으로, 같은 대상에 두개(Primary & Qualifier) 모두 사용하면 Qualifier가 우선권이 있음
