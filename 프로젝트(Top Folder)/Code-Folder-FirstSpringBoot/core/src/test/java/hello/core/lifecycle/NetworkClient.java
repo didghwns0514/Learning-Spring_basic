@@ -1,5 +1,8 @@
 package hello.core.lifecycle;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 public class NetworkClient {
 
     private String url;
@@ -28,6 +31,7 @@ public class NetworkClient {
         System.out.println("close : " + url);
     }
 
+    @PostConstruct
     public void init() {
         // 의존관계 주입이 끝나면 호출해준다는 뜻
         System.out.println("NeworkClient.afterPropertiesSet");
@@ -35,6 +39,7 @@ public class NetworkClient {
         call("초기화 연결 메세지");
     }
 
+    @PreDestroy
     public void close() {
         // 작업 완료 이후, 종료 이전에 수행해야할 것들을 호출해주는 부분
         System.out.println("NetworkClient.destroy");
