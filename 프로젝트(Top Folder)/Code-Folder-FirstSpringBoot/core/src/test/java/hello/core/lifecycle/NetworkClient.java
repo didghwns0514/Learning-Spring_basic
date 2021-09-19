@@ -1,9 +1,6 @@
 package hello.core.lifecycle;
 
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-
-public class NetworkClient implements InitializingBean, DisposableBean {
+public class NetworkClient {
 
     private String url;
 
@@ -31,16 +28,14 @@ public class NetworkClient implements InitializingBean, DisposableBean {
         System.out.println("close : " + url);
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    public void init() {
         // 의존관계 주입이 끝나면 호출해준다는 뜻
         System.out.println("NeworkClient.afterPropertiesSet");
         connect();
         call("초기화 연결 메세지");
     }
 
-    @Override
-    public void destroy() throws Exception {
+    public void close() {
         // 작업 완료 이후, 종료 이전에 수행해야할 것들을 호출해주는 부분
         System.out.println("NetworkClient.destroy");
         disconnect();
