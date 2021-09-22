@@ -1,0 +1,40 @@
+package hello.core.common;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.UUID;
+
+@Component
+@Scope(value = "request")
+public class MyLogger {
+
+    private String uuid;
+    private String requestURL;
+
+    public void setRequestURL(String requestURL) {
+        this.requestURL = requestURL;
+    }
+
+    public void log(String message) {
+
+        String tmpMessage = "[" + uuid + "]" + "[" + requestURL + "]" + "[" + message + "]";
+        System.out.println(tmpMessage);
+
+    }
+
+    @PostConstruct
+    public void init() {
+        this.uuid = UUID.randomUUID().toString();
+        System.out.println("uuid: [" + uuid + "] request-scope Bean create: " + this);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("uuid: [" + uuid + "] request-scope Bean destroyed: " + this);
+
+    }
+}
+

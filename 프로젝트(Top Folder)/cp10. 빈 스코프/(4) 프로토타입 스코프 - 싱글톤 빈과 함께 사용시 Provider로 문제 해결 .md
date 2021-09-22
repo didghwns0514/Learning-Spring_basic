@@ -125,3 +125,7 @@
 ## 4) 정리
 
 <img src='images/2021-09-22-00-22-43.png' />
+
+- **`ObjectProvider / Provider 는 빈의 생성을 지연하는 것!`** -> 이를 통해 정상동작을 보장하는 것
+- 지연해야 하는 이유는 scope에 의한 각 빈의 Life-Cycle의 차이 등이 있을 수 있음
+- 등록 시점에, Life-cylce 차이 등
